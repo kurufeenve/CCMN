@@ -6,7 +6,7 @@
 #    By: vordynsk <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/15 21:01:13 by vordynsk          #+#    #+#              #
-#    Updated: 2020/01/15 21:49:11 by vordynsk         ###   ########.fr        #
+#    Updated: 2020/01/16 21:26:54 by vordynsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,6 @@ class   Request():
     '''parent class to send requests to Cisco API'''
 
     err200 = "<Response [200]>"
-    err404 = "<Response [404]>" 
 
     def __init__(self, url, login, password):
         self.__url = url
@@ -32,11 +31,11 @@ class   Request():
             exit(1)
         if str(r) == self.err200:
             print ("Success")
-        elif str(r) == self.err404:
+        else:
             error = {}
-            error['error'] = 404
+            error['error'] = str(r)[11:14]
             return error
-        print (r)
+        print (str(r)[11:14])
         return r.json()
 
 if __name__ == '__main__':
