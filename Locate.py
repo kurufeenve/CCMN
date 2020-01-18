@@ -6,10 +6,11 @@
 #    By: vordynsk <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/15 21:01:31 by vordynsk          #+#    #+#              #
-#    Updated: 2020/01/18 20:38:40 by vordynsk         ###   ########.fr        #
+#    Updated: 2020/01/18 20:47:42 by vordynsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+import json
 import os
 from Request import *
 
@@ -90,10 +91,10 @@ class   Locate(Request):
                         f.write(chunk)
 
     def get_old_clients(self):
-        return self.old_clients
+        return json.dumps(self.old_clients)
 
     def get_new_clients(self):
-        return self.new_clients
+        return json.dumps(self.new_clients)
 
 if __name__ == '__main__':
     L = Locate()
