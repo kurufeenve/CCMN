@@ -6,7 +6,7 @@
 #    By: vordynsk <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/15 21:01:31 by vordynsk          #+#    #+#              #
-#    Updated: 2020/01/18 20:47:42 by vordynsk         ###   ########.fr        #
+#    Updated: 2020/01/20 21:26:54 by vordynsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,15 @@ class   Locate(Request):
         return len(r)
 
     def get_clients(self):
+        for key in self.new_clients:
+            if key in self.old_clients:
+                self.old_clients[key]['userName'] = self.new_clients[key]['userName']
+                self.old_clients[key]['floorName'] = self.new_clients[key]['floorName']
+                self.old_clients[key]['x'] = self.new_clients[key]['mapCoordinate']['x']
+                self.old_clients[key]['y'] = self.new_clients[key]['mapCoordinate']['y']
+                self.old_clients[key]['z'] = self.new_clients[key]['mapCoordinate']['z']
+            else:
+
         self.old_clients = self.new_clients.copy()
         self.new_clients.clear()
         r = self.get_request(self.clients, None)
