@@ -6,7 +6,7 @@
 #    By: vordynsk <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/15 21:01:31 by vordynsk          #+#    #+#              #
-#    Updated: 2020/01/20 21:26:54 by vordynsk         ###   ########.fr        #
+#    Updated: 2020/01/21 20:38:52 by vordynsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,8 +48,8 @@ class   Locate(Request):
                 self.old_clients[key]['y'] = self.new_clients[key]['mapCoordinate']['y']
                 self.old_clients[key]['z'] = self.new_clients[key]['mapCoordinate']['z']
             else:
-
-        self.old_clients = self.new_clients.copy()
+                self.old_clients[key] = self.new_clients[key].copy()
+        #self.old_clients = self.new_clients.copy()
         self.new_clients.clear()
         r = self.get_request(self.clients, None)
         try:
@@ -104,6 +104,14 @@ class   Locate(Request):
 
     def get_new_clients(self):
         return json.dumps(self.new_clients)
+
+    def search(self, MAC):
+        if MAC in self.new_clients:
+            return self.new_clients[MAC]
+        elif MAC in self.old_clients:
+            return self.old_clients[MAC]
+        else:
+            return None
 
 if __name__ == '__main__':
     L = Locate()
