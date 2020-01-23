@@ -6,7 +6,7 @@
 #    By: vordynsk <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 20:39:17 by vordynsk          #+#    #+#              #
-#    Updated: 2020/01/21 21:04:21 by vordynsk         ###   ########.fr        #
+#    Updated: 2020/01/23 21:45:50 by vordynsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,12 @@ class   Presence(Request):
         super().__init__("https://cisco-presence.unit.ua/", "RO", "Passw0rd")
 
     def get_site_id(self):
-        r = self.get_request(self.site_id, None)
-        return r
+        r = self.get_request(self.site_id, None)[0]['aesUId']
+        if r == None:
+            logging.warning('No site Id')
+        else:
+            logging.info('site Id')
+            return r
 
 if __name__ == '__main__':
     P = Presence()
