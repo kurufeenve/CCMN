@@ -6,7 +6,7 @@
 #    By: vordynsk <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/15 21:01:13 by vordynsk          #+#    #+#              #
-#    Updated: 2020/01/23 21:28:02 by vordynsk         ###   ########.fr        #
+#    Updated: 2020/01/26 14:55:25 by vordynsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,10 +32,12 @@ class   Request():
             logging.warning("Something went wrong with get request to the server.\nPlease, check your login and password.\nurl = '",self.__url,"'\nrequest = '",req,"'")
             exit(1)
         if r.status_code == 200:
-            logging.info("Success")
+            #logging.info("Success")
+            pass
         else:
             error = {}
             error['error'] = str(r)[11:14]
+            logging.warning(error)
             return error
         if image == 'image':
             return r
