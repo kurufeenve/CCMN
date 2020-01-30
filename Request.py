@@ -6,12 +6,13 @@
 #    By: vordynsk <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/15 21:01:13 by vordynsk          #+#    #+#              #
-#    Updated: 2020/01/26 14:55:25 by vordynsk         ###   ########.fr        #
+#    Updated: 2020/01/30 20:01:55 by vordynsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import requests
 import logging
+import urllib3
 
 class   Request():
     
@@ -19,6 +20,7 @@ class   Request():
 
     err200 = "<Response [200]>"
     logging.basicConfig(filename='CCMN.log', level=logging.INFO)
+    urllib3.disable_warnings()
 
     def __init__(self, url, login, password):
         self.__url = url
