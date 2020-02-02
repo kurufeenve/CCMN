@@ -6,7 +6,7 @@
 #    By: vordynsk <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 20:39:17 by vordynsk          #+#    #+#              #
-#    Updated: 2020/01/30 19:55:13 by vordynsk         ###   ########.fr        #
+#    Updated: 2020/02/02 19:26:27 by vordynsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,11 @@ class   Presence(Request):
     sum_of_conn_vis = "api/presence/v1/connected/total/?"
     repeat_visitors = "api/presence/v1/repeatvisitors/count/?"
     passers_by = "api/presence/v1/passerby/total?"
+    count = "api/presence/v1/visitor/count/?"
     dwell_c = "api/presence/v1/dwell/count/?"
     dwell_a = "api/presence/v1/dwell/average/?"
+    insights = "api/presence/v1/insights/?"
+    insights_hourly = "api/presence/v1/visitor/hourly/?"
 
     def __init__(self):
         super().__init__("https://cisco-presence.unit.ua/", "RO", "Passw0rd")
@@ -47,10 +50,18 @@ class   Presence(Request):
             return self.get_request(self.repeat_visitors + "siteId=" + str(self.s_id) + "&startDate=" + start_date + "&endDate=" + end_date, None)
         if info == "passerby":
             return self.get_request(self.passers_by + "siteId=" + str(self.s_id) + "&startDate=" + start_date + "&endDate=" + end_date, None)
+        if info == "count":
+            return self.get_request(self.count + "siteId=" + str(self.s_id) + "&startDate=" + start_date + "&endDate=" + end_date, None)
         if info == "dwell_count":
             return self.get_request(self.dwell_c + "siteId=" + str(self.s_id) + "&startDate=" + start_date + "&endDate=" + end_date, None)
         if info == "dwell_average":
             return self.get_request(self.dwell_a + "siteId=" + str(self.s_id) + "&startDate=" + start_date + "&endDate=" + end_date, None)
+
+    def get_insights(self, start_date, end_date, insight):
+        if (insight == "general"):
+            return self.get_request(self.insights + "siteId=" + str(self.s_id) + "&startDate=" + start_date + "&endDate=" + end_date, None)
+        if (insight == "hourly"):
+            return self.get_request(self.insights_hourly + "siteId=" + str(self.s_id) + "&date=" + start_date, None)
 
 if __name__ == '__main__':
     P = Presence()
@@ -58,5 +69,8 @@ if __name__ == '__main__':
     print (P.get_info("2020-01-26", "2020-01-26", "connected"))
     print (P.get_info("2020-01-26", "2020-01-26", "repeat"))
     print (P.get_info("2020-01-26", "2020-01-26", "passerby"))
+    print (P.get_info("2020-01-26", "2020-01-26", "count"))
     print (P.get_info("2020-01-26", "2020-01-26", "dwell_count"))
     print (P.get_info("2020-01-26", "2020-01-26", "dwell_average"))
+    print (P.get_insights("2020-01-01", "2020-02-02", "general"))
+    print (P.get_insights("2020-02-02", None, "hourly"))
