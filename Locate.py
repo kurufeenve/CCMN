@@ -6,7 +6,7 @@
 #    By: vordynsk <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/15 21:01:31 by vordynsk          #+#    #+#              #
-#    Updated: 2020/01/21 20:38:52 by vordynsk         ###   ########.fr        #
+#    Updated: 2020/03/08 18:25:48 by vordynsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,9 @@ class   Locate(Request):
             if key in self.old_clients:
                 self.old_clients[key]['userName'] = self.new_clients[key]['userName']
                 self.old_clients[key]['floorName'] = self.new_clients[key]['floorName']
+                self.old_clients[key]['ipAddress'] = self.new_clients[key]['ipAddress']
+                self.old_clients[key]['manufacturer'] = self.new_clients[key]['manufacturer']
+                self.old_clients[key]['ssId'] = self.new_clients[key]['ssId']
                 self.old_clients[key]['x'] = self.new_clients[key]['mapCoordinate']['x']
                 self.old_clients[key]['y'] = self.new_clients[key]['mapCoordinate']['y']
                 self.old_clients[key]['z'] = self.new_clients[key]['mapCoordinate']['z']
@@ -51,27 +54,33 @@ class   Locate(Request):
                 self.old_clients[key] = self.new_clients[key].copy()
         #self.old_clients = self.new_clients.copy()
         self.new_clients.clear()
-        r = self.get_request(self.clients, None)
+        r = self.get_request(self.clients, None) 
         try:
             if r['error'] != 200:
                 return r            
         except:
-            pass
+            pass 
         cl = {}
         for client in r:
             if client['macAddress'] in self.old_clients:
                 self.old_clients[client['macAddress']]['userName'] = client['userName']
                 self.old_clients[client['macAddress']]['floorName'] = client['mapInfo']['mapHierarchyString'][27:36]
+                self.old_clients[client['macAddress']]['ipAddress'] = client['ipAddress']
+                self.old_clients[client['macAddress']]['manufacturer'] = client['manufacturer']
+                self.old_clients[client['macAddress']]['ssId'] = client['ssId']
                 self.old_clients[client['macAddress']]['x'] = client['mapCoordinate']['x']
                 self.old_clients[client['macAddress']]['y'] = client['mapCoordinate']['y']
                 self.old_clients[client['macAddress']]['z'] = client['mapCoordinate']['z']
             else:
                 cl['userName'] = client['userName']
                 cl['floorName'] = client['mapInfo']['mapHierarchyString'][27:36]
+                cl['ipAddress'] = client['ipAddress']
+                cl['manufacturer'] = client['manufacturer']
+                cl['ssId'] = client['ssId']
                 cl['x'] = client['mapCoordinate']['x']
                 cl['y'] = client['mapCoordinate']['y']
                 cl['z'] = client['mapCoordinate']['z']
-                self.new_clients[client['macAddress']] = cl
+                self.new_clients[client['macAddress']] = cl.copy()
 
     def get_all_maps(self): 
         maps_json =  self.get_request(self.all_maps, None)

@@ -6,7 +6,7 @@
 #    By: vordynsk <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/03/07 17:29:17 by vordynsk          #+#    #+#              #
-#    Updated: 2020/03/07 18:49:12 by vordynsk         ###   ########.fr        #
+#    Updated: 2020/03/08 18:26:54 by vordynsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ from resizeimage import resizeimage
 from Locate import *
 
 root = Tk()
+L = Locate()
+user = {}
 
 root.title("Map")
 root.geometry('1800x1100')
@@ -31,20 +33,29 @@ def presence_window():
 but_pres = Button(text="Presence",command=presence_window)
 
 def search_MAC():
-    L = Locate()
     L.get_clients()
-    print (L.new_clients)
-    print (e1)
+    resp = e1.get()
+    if len(resp) == 0:
+        print (L.old_clients)
+        print (L.new_clients)
+    else:
+        user = L.search(resp)
+        e2 = Label(text=user['ipAddress'][0])
+        e2.place(x=650,y=50)
+        e2 = Label(text=user['floorName'])
+        e2.place(x=850,y=50)
+        e2 = Label(text=user['manufacturer'])
+        e2.place(x=1050,y=50)
+        e2 = Label(text=user['ssId'])
+        e2.place(x=1250,y=50)
 
-l1 = Label(text="Input MAC Address:")
+l1 = Label(text="Input MAC Address:", font='Helvetica 18 bold')
 e1 = Entry(width=15)
 b1 = Button(text="Search", command=search_MAC)
-l2 = Label(text="IP Address:")
-e2 = Entry(width=15)
-l3 = Label(text="Floor:")
-e3 = Entry(width=15)
-l4 = Label(text="Manufacturer:")
-e4 = Entry(width=15)
+l2 = Label(text="IP Address:", font='Helvetica 18 bold')
+l3 = Label(text="Floor:", font='Helvetica 18 bold')
+l4 = Label(text="Manufacturer:", font='Helvetica 18 bold')
+l5 = Label(text="SSID:", font='Helvetica 18 bold')
 
 def change_pic1():
     imagesprite.configure(image=image1)
@@ -77,13 +88,11 @@ but2.place(x=120, y=50, width=80, height=30)
 but3.place(x=210, y=50, width=80, height=30)
 l1.place(x=450,y=15)
 e1.place(x=450,y=50)
-b1.place(x=485, y=80, width=80, height=30)
+b1.place(x=450, y=80, width=80, height=30)
 l2.place(x=650,y=15)
-e2.place(x=650,y=50)
 l3.place(x=850,y=15)
-e3.place(x=850,y=50)
 l4.place(x=1050,y=15)
-e4.place(x=1050,y=50)
+l5.place(x=1250,y=15)
 
 #########################################################################
 
