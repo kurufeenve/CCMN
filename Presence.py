@@ -6,7 +6,7 @@
 #    By: vordynsk <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 20:39:17 by vordynsk          #+#    #+#              #
-#    Updated: 2020/02/02 19:26:27 by vordynsk         ###   ########.fr        #
+#    Updated: 2020/03/10 17:13:33 by vordynsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ class   Presence(Request):
 
     site_id = "api/config/v1/sites"
     sum_of_conn_vis = "api/presence/v1/connected/total/?"
+    total_visitors = "/api/presence/v1/visitor/total/?"
     repeat_visitors = "api/presence/v1/repeatvisitors/count/?"
     passers_by = "api/presence/v1/passerby/total?"
     count = "api/presence/v1/visitor/count/?"
@@ -44,6 +45,8 @@ class   Presence(Request):
         if self.site_id == None:
             logging.warning('could not process sum_of_connected_visitors request. no site_id. terminating...')
             return
+        if info == "visitors":
+            return self.get_request(self.total_visitors + "siteId=" + str(self.s_id) + "&startDate=" + start_date + "&endDate=" + end_date, None)
         if info == "connected":
             return self.get_request(self.sum_of_conn_vis + "siteId=" + str(self.s_id) + "&startDate=" + start_date + "&endDate=" + end_date, None)
         if info == "repeat":
