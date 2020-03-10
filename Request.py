@@ -6,7 +6,7 @@
 #    By: vordynsk <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/15 21:01:13 by vordynsk          #+#    #+#              #
-#    Updated: 2020/03/10 18:16:58 by vordynsk         ###   ########.fr        #
+#    Updated: 2020/03/10 18:43:16 by vordynsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ class   Request():
         self.__password = password
 
     def get_request(self, req, image):
+        print (self.__url + req)
         try:
             r = requests.request("GET", self.__url + req, auth=(self.__login, self.__password), verify=False)
         except:

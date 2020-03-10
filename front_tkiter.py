@@ -6,7 +6,7 @@
 #    By: vordynsk <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/03/07 17:29:17 by vordynsk          #+#    #+#              #
-#    Updated: 2020/03/10 18:18:45 by vordynsk         ###   ########.fr        #
+#    Updated: 2020/03/10 20:57:22 by vordynsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,28 @@ from Dots import *
 root = Tk()
 L = Locate()
 user = {}
-dot = Dots()
-
+canvas = Canvas(root)
 root.title("Map")
 root.geometry('1800x1100')
+canvas.pack(fill=BOTH, expand=1)
+
+ext = ".jpg"
+im1 = Image.open("maps/1st_Floor")
+image1 = ImageTk.PhotoImage(im1)
+tmp = Image.open("maps/2nd_Floor")
+tmp2 = tmp.resize((1750, 900), Image.ANTIALIAS)
+tmp2.save("ANTIALIAS" + ext)
+im2 = Image.open("ANTIALIAS" + ext)
+image2 = ImageTk.PhotoImage(im2)
+im3 = Image.open("maps/3rd_Floor")
+image3 = ImageTk.PhotoImage(im3)
+
+floors = {"1st_Floor":image1, "2nd_Floor":image2, "3rd_Floor":image3}
+
+canvas_x = 15
+canvas_y = 170
+
+dot_size = 10
 
 def presence_window():
     pres = Tk()
@@ -42,15 +60,35 @@ def search_MAC():
         print (L.new_clients)
     else:
         user = L.search(resp)
-        e2 = Label(text=user['ipAddress'][0])
+        try:
+            e2 = Label(text=user['ipAddress'][0])
+        except:
+            e2 = Label(text="N/A")
         e2.place(x=650,y=50)
-        e2 = Label(text=user['floorName'])
+        try:
+            e2 = Label(text=user['floorName'])
+        except:
+            e2 = Label(text="N/A")
         e2.place(x=850,y=50)
-        e2 = Label(text=user['manufacturer'])
+        try:
+            e2 = Label(text=user['manufacturer'])
+        except:
+            e2 = Label(text="N/A")
         e2.place(x=1050,y=50)
-        e2 = Label(text=user['ssId'])
+        try:
+            e2 = Label(text=user['ssId'])
+        except:
+            e2 = Label(text="N/A")
         e2.place(x=1250,y=50)
-        dot.place_dot()
+        canvas.delete("all")
+        try:
+            canvas.create_image(canvas_x, canvas_y, anchor=NW, image=floors[user['floorName']])
+            x = canvas_x + user['x']
+            y = canvas_y + user['y']
+            canvas.create_oval(x, y, x + dot_size, y + dot_size, outline="#f11", fill="#1f1", width=2)
+        except:
+            change_pic1()
+        
 
 l1 = Label(text="Input MAC Address:", font='Helvetica 18 bold')
 e1 = Entry(width=15)
@@ -61,25 +99,16 @@ l4 = Label(text="Manufacturer:", font='Helvetica 18 bold')
 l5 = Label(text="SSID:", font='Helvetica 18 bold')
 
 def change_pic1():
-    imagesprite.configure(image=image1)
+    canvas.delete("all")
+    canvas.create_image(canvas_x, canvas_y, anchor=NW, image=floors["1st_Floor"])
 def change_pic2():
-    imagesprite.configure(image=image2)
+    canvas.delete("all")
+    canvas.create_image(canvas_x, canvas_y, anchor=NW, image=floors["2nd_Floor"])
 def change_pic3():
-    imagesprite.configure(image=image3)
+    canvas.delete("all")
+    canvas.create_image(canvas_x, canvas_y, anchor=NW, image=floors["3rd_Floor"])
 
-ext = ".jpg"
-
-im1 = Image.open("maps/1st_Floor")
-image1 = ImageTk.PhotoImage(im1)
-tmp = Image.open("maps/2nd_Floor")
-tmp2 = tmp.resize((1750, 900), Image.ANTIALIAS)
-tmp2.save("ANTIALIAS" + ext)
-im2 = Image.open("ANTIALIAS" + ext)
-image2 = ImageTk.PhotoImage(im2)
-im3 = Image.open("maps/3rd_Floor")
-image3 = ImageTk.PhotoImage(im3)
-imagesprite=Label(image=image1)
-imagesprite.place(x = 30,y = 110, width=1750, height=1000)
+canvas.create_image(canvas_x, canvas_y, anchor=NW, image=floors["1st_Floor"])
 
 but1 = Button(text="1st Floor",command=change_pic1)
 but2 = Button(text="2nd Floor",command=change_pic2)
