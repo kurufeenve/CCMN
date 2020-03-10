@@ -6,7 +6,7 @@
 #    By: vordynsk <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/03/07 17:29:17 by vordynsk          #+#    #+#              #
-#    Updated: 2020/03/08 18:26:54 by vordynsk         ###   ########.fr        #
+#    Updated: 2020/03/10 18:18:45 by vordynsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,12 @@ from PIL import ImageTk, Image
 from resizeimage import resizeimage
 
 from Locate import *
+from Dots import * 
 
 root = Tk()
 L = Locate()
 user = {}
+dot = Dots()
 
 root.title("Map")
 root.geometry('1800x1100')
@@ -48,6 +50,7 @@ def search_MAC():
         e2.place(x=1050,y=50)
         e2 = Label(text=user['ssId'])
         e2.place(x=1250,y=50)
+        dot.place_dot()
 
 l1 = Label(text="Input MAC Address:", font='Helvetica 18 bold')
 e1 = Entry(width=15)

@@ -6,7 +6,7 @@
 #    By: vordynsk <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 20:39:17 by vordynsk          #+#    #+#              #
-#    Updated: 2020/03/10 17:13:33 by vordynsk         ###   ########.fr        #
+#    Updated: 2020/03/10 18:16:46 by vordynsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,9 +19,9 @@ class   Presence(Request):
 
     site_id = "api/config/v1/sites"
     sum_of_conn_vis = "api/presence/v1/connected/total/?"
-    total_visitors = "/api/presence/v1/visitor/total/?"
+    total_visitors = "api/presence/v1/visitor/total/?"
     repeat_visitors = "api/presence/v1/repeatvisitors/count/?"
-    passers_by = "api/presence/v1/passerby/total?"
+    passers_by = "api/presence/v1/passerby/total?/"
     count = "api/presence/v1/visitor/count/?"
     dwell_c = "api/presence/v1/dwell/count/?"
     dwell_a = "api/presence/v1/dwell/average/?"
@@ -69,6 +69,7 @@ class   Presence(Request):
 if __name__ == '__main__':
     P = Presence()
     print (P.get_site_id())
+    print (P.get_info("2020-01-26", "2020-01-26", "visitors"))
     print (P.get_info("2020-01-26", "2020-01-26", "connected"))
     print (P.get_info("2020-01-26", "2020-01-26", "repeat"))
     print (P.get_info("2020-01-26", "2020-01-26", "passerby"))
