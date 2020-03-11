@@ -6,7 +6,7 @@
 #    By: vordynsk <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/03/07 17:29:17 by vordynsk          #+#    #+#              #
-#    Updated: 2020/03/11 15:18:31 by vordynsk         ###   ########.fr        #
+#    Updated: 2020/03/11 16:58:28 by vordynsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,15 +27,10 @@ root.geometry('1800x1100')
 canvas.pack(fill=BOTH, expand=1)
 
 ext = ".jpg"
-#im1 = Image.open("maps/1st_Floor")
 image1 = ImageTk.PhotoImage(Image.open("maps/1st_Floor"))
-#tmp = Image.open("maps/2nd_Floor")
-tmp2 = Image.open("maps/2nd_Floor").resize((1750, 900), Image.ANTIALIAS)
-tmp2.save("ANTIALIAS" + ext)
-im2 = Image.open("ANTIALIAS" + ext)
-image2 = ImageTk.PhotoImage(im2)
-im3 = Image.open("maps/3rd_Floor")
-image3 = ImageTk.PhotoImage(im3)
+Image.open("maps/2nd_Floor").resize((1750, 900), Image.ANTIALIAS).save("ANTIALIAS" + ext)
+image2 = ImageTk.PhotoImage(Image.open("ANTIALIAS" + ext))
+image3 = ImageTk.PhotoImage(Image.open("maps/3rd_Floor"))
 
 floors = {"1st_Floor":image1, "2nd_Floor":image2, "3rd_Floor":image3}
 
@@ -51,7 +46,7 @@ def presence_window():
     but_pres['state'] = 'disabled'
 
 
-but_pres = Button(text="Presence",command=presence_window)
+Button(text="Presence",command=presence_window).place(x=120, y=15, width=80, height=30)
 
 def search_MAC():
     L.get_clients()
@@ -135,14 +130,10 @@ def show_floor_3():
 
 show_floor_1()
 
-but1 = Button(text="1st Floor",command=show_floor_1)
-but2 = Button(text="2nd Floor",command=show_floor_2)
-but3 = Button(text="3rd Floor",command=show_floor_3)
+Button(text="1st Floor",command=show_floor_1).place(x=30, y=50, width=80, height=30)
+Button(text="2nd Floor",command=show_floor_2).place(x=120, y=50, width=80, height=30)
+Button(text="3rd Floor",command=show_floor_3).place(x=210, y=50, width=80, height=30)
 
-but_pres.place(x=120, y=15, width=80, height=30)
-but1.place(x=30, y=50, width=80, height=30)
-but2.place(x=120, y=50, width=80, height=30)
-but3.place(x=210, y=50, width=80, height=30)
 l1.place(x=450,y=15)
 e1.place(x=450,y=50)
 b1.place(x=450, y=80, width=80, height=30)
