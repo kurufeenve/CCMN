@@ -6,7 +6,7 @@
 #    By: vordynsk <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/03/07 17:29:17 by vordynsk          #+#    #+#              #
-#    Updated: 2020/03/10 20:57:22 by vordynsk         ###   ########.fr        #
+#    Updated: 2020/03/11 15:18:31 by vordynsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ from Dots import *
 
 root = Tk()
 L = Locate()
+L.get_map_images()
 user = {}
 canvas = Canvas(root)
 root.title("Map")
@@ -26,10 +27,10 @@ root.geometry('1800x1100')
 canvas.pack(fill=BOTH, expand=1)
 
 ext = ".jpg"
-im1 = Image.open("maps/1st_Floor")
-image1 = ImageTk.PhotoImage(im1)
-tmp = Image.open("maps/2nd_Floor")
-tmp2 = tmp.resize((1750, 900), Image.ANTIALIAS)
+#im1 = Image.open("maps/1st_Floor")
+image1 = ImageTk.PhotoImage(Image.open("maps/1st_Floor"))
+#tmp = Image.open("maps/2nd_Floor")
+tmp2 = Image.open("maps/2nd_Floor").resize((1750, 900), Image.ANTIALIAS)
 tmp2.save("ANTIALIAS" + ext)
 im2 = Image.open("ANTIALIAS" + ext)
 image2 = ImageTk.PhotoImage(im2)
@@ -87,7 +88,7 @@ def search_MAC():
             y = canvas_y + user['y']
             canvas.create_oval(x, y, x + dot_size, y + dot_size, outline="#f11", fill="#1f1", width=2)
         except:
-            change_pic1()
+            show_floor_1()
         
 
 l1 = Label(text="Input MAC Address:", font='Helvetica 18 bold')
@@ -98,21 +99,45 @@ l3 = Label(text="Floor:", font='Helvetica 18 bold')
 l4 = Label(text="Manufacturer:", font='Helvetica 18 bold')
 l5 = Label(text="SSID:", font='Helvetica 18 bold')
 
-def change_pic1():
+def get_clients_on_the_floor(floor):
+    L.get_clients()
+    users = {}
+    for MAC in L.old_clients:
+        if (L.old_clients[MAC]['floorName'] == floor):
+            users[MAC] = L.old_clients[MAC]
+            print (MAC, L.old_clients[MAC])
+    for MAC in L.new_clients:
+        if (L.new_clients[MAC]['floorName'] == floor):
+            users[MAC] = L.new_clients[MAC]
+            print (MAC, L.new_clients[MAC])
+    return users
+
+def show_clients(users):
+    for MAC in users:
+        x = canvas_x + users[MAC]['x']
+        y = canvas_y + users[MAC]['y']
+        canvas.create_oval(x, y, x + dot_size, y + dot_size, outline="#f11", fill="#1f1", width=2)
+
+def show_floor_1():
     canvas.delete("all")
     canvas.create_image(canvas_x, canvas_y, anchor=NW, image=floors["1st_Floor"])
-def change_pic2():
+    show_clients(get_clients_on_the_floor("1st_Floor"))
+
+def show_floor_2():
     canvas.delete("all")
     canvas.create_image(canvas_x, canvas_y, anchor=NW, image=floors["2nd_Floor"])
-def change_pic3():
+    show_clients(get_clients_on_the_floor("2nd_Floor"))
+
+def show_floor_3():
     canvas.delete("all")
     canvas.create_image(canvas_x, canvas_y, anchor=NW, image=floors["3rd_Floor"])
+    show_clients(get_clients_on_the_floor("3rd_Floor"))
 
-canvas.create_image(canvas_x, canvas_y, anchor=NW, image=floors["1st_Floor"])
+show_floor_1()
 
-but1 = Button(text="1st Floor",command=change_pic1)
-but2 = Button(text="2nd Floor",command=change_pic2)
-but3 = Button(text="3rd Floor",command=change_pic3)
+but1 = Button(text="1st Floor",command=show_floor_1)
+but2 = Button(text="2nd Floor",command=show_floor_2)
+but3 = Button(text="3rd Floor",command=show_floor_3)
 
 but_pres.place(x=120, y=15, width=80, height=30)
 but1.place(x=30, y=50, width=80, height=30)
